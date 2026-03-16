@@ -1,0 +1,17 @@
+{
+    "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json", 
+    "AuthorDetails": {
+      "Name": "Owain Williams",
+      "ImageUrl": "https://github.com/OwainWilliams.png",
+      "Url": "https://owain.codes",
+      "Description": "Owain Williams is a Senior Developer at Initials Labs, a mutli-awarded Umbraco MVP",
+      "Mastodon": "https://umbracocommunity.social/@owaincodes"
+    },
+    "Category": "Editor Tools",
+    "Description": "An Umbraco Flavoured Markdown extension to allow for searching Member data",
+    "LicenseTypes": [ "Free" ],
+    "IssueTrackerUrl": "https://github.com/OwainWilliams/OC.UFMMemberLookup",
+    "PackageType": "Package",
+    "Tags": ["members", "markdown", "editor"],
+    "Title": "OC.UFMMemberLookup"
+  }
