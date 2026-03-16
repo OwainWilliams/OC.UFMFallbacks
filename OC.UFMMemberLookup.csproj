@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Product>OC.UFMMemberLookup</Product>
+		<PackageId>OC.UFMMemberLookup</PackageId>
+		<Title>OC.UFMMemberLookup - Umbraco Flavoured Markdown Member Lookup</Title>
+		<Description>Lookup Member details with Umbraco Flavoured Markdown (UFM)</Description>
+		<PackageTags>umbraco;umbraco-marketplace;cms;content-management;ufm;member-lookup</PackageTags>
+		<Authors>Owain Williams</Authors>
+		<Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © Owain Williams</Copyright>
+		<PackageProjectUrl>https://github.com/OwainWilliams/OC.UFMMemberLookup</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/OwainWilliams/OC.UFMMemberLookup</RepositoryUrl>
+		<PackageReadmeFile>README_nuget.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>ocUFMMemberLookupLogo.png</PackageIcon>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>1.0.0-alpha</Version>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\dist\</PackageOutputPath>
+		<VersionSuffix>dev</VersionSuffix>
+		<VersionPrefix>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</VersionPrefix>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[17.0, 18.0)" />
+		<PackageReference Include="Umbraco.Cms.Web.Common" Version="[17.0, 18.0)" />
+		<PackageReference Include="Umbraco.Cms.Api.Common" Version="[17.0, 18.0)" />
+		<PackageReference Include="Umbraco.Cms.Api.Management" Version="[17.0, 18.0)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Dont include the client folder as part of packaging nuget build -->
+		<Content Remove="Client\**" />
+		<Content Include="README_nuget.md" />
+
+		<!-- However make the Umbraco-package.json included for dotnet pack or nuget package and visible to the solution -->
+		<None Include="Client\public\umbraco-package.json" Pack="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="ocUFMMemberLookupLogo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="README_nuget.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+
+	<!-- Source Link configuration for better debugging experience -->
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+</Project>

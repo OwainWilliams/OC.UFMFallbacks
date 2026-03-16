@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OC.UFMMemberLookup", "OC.UFMMemberLookup.csproj", "{C0D46AAC-1B74-EEF1-BC86-6329F0062255}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0D46AAC-1B74-EEF1-BC86-6329F0062255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D46AAC-1B74-EEF1-BC86-6329F0062255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D46AAC-1B74-EEF1-BC86-6329F0062255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D46AAC-1B74-EEF1-BC86-6329F0062255}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E576659-DD0D-49AC-AA3C-B79A198E4072}
+	EndGlobalSection
+EndGlobal

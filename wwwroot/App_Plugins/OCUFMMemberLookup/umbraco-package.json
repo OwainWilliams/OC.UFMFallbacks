@@ -1,0 +1,14 @@
+{
+  "id": "OC.UFMMemberLookup",
+  "name": "OC.UFMMemberLookup",
+  "version": "1.0.0-alpha",
+  "allowTelemetry": true,
+  "extensions": [
+    {
+      "name": "OC UFM Member Lookup",
+      "alias": "OC.UFMMemberLookup",
+      "type": "bundle",
+      "js": "/App_Plugins/OCUFMMemberLookup/oc-ufm-member-lookup.js"
+    }
+  ]
+}
