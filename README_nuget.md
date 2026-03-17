@@ -1,90 +1,53 @@
-﻿# OC UFM Member Lookup
+# OC.UFMFallbacks
 
-An Umbraco 17 package that provides seamless member data lookup functionality through UFM (Umbraco Flavored Markdown) tokens. Display member information dynamically in your content using simple, intuitive syntax.
+Extends **Umbraco Flavoured Markdown (UFM)** with a `{fbk:}` component that supports property fallbacks and text filters inside block labels and other UFM contexts.
 
-## Features
-
-✅ **UFM Token Support** - Use `{mnl:propertyAlias.fieldName}` syntax to display member data  
-✅ **Flexible Member Fields** - Access standard fields (email, username, name) and custom properties  
-✅ **Smart Value Parsing** - Handles both UDI (`umb://member/{guid}`) and plain GUID formats  
-✅ **Real-time Loading** - Async data fetching with loading states  
-✅ **Secure API** - Backoffice authenticated endpoints  
-✅ **Zero Configuration** - Automatic registration and setup  
-
-## Quick Start
-
-### Installation
-```
-Install-Package OC.UFMMemberLookup
-```
-
-### Usage
-Use UFM tokens in your Umbraco content to display member information:
-
-
-`author` is the name of the member field in your content, it can be anything you like and name/email/company are the member properties you want to display.
-```
-{mnl:author.name}
-{mnl:author.email}
-{mnl:author.company}
-```
-
-### Example
-
-
-
-## Supported Member Fields
-
-- **Built-in Fields**: `email`, `username`, `name`
-- **Custom Properties**: Any custom member property alias
-
-## API Access
-
-The package also provides a REST API for programmatic access:
-
-```
-GET /umbraco/management/api/v1/oc/ocmembernamelookup/member-field?memberKey={guid}&field={fieldName}
-```
-
-## Requirements
-
-- **Umbraco CMS**: 17.0.0 or later
-- **.NET**: 10.0 or later
-- **Authentication**: Backoffice access for API endpoints
-
-## Real-World Use Cases
-
-- **Blog Author Information** - Display author bios and contact details
-- **Staff Directory** - Show employee contact information  
-- **Event Management** - Display organizer and speaker details
-- **Member Spotlights** - Feature member profiles and achievements
-- **Customer Testimonials** - Show customer names and company details
-
-## What's Included
-
-After installation, the package automatically provides:
-
-- UFM component registration for `mnl` tokens
-- Management API controllers
-- Client-side assets in `/App_Plugins/OCUFMMemberLookup/`
-- Automatic service registration
-
-No additional configuration required!
-
-## Documentation & Support
-
-- 📖 **Full Documentation**: [GitHub Repository](https://github.com/OwainWilliams/OC.UFMMemberLookup)
-- 🐛 **Issues & Support**: [GitHub Issues](https://github.com/OwainWilliams/OC.UFMMemberLookup/issues)
-- 💡 **Feature Requests**: Submit via GitHub Issues
-
-## Package Information
-
-- **Package ID**: `OC.UFMMemberLookup`
-- **Current Version**: `1.0.0-alpha`
-- **License**: MIT
-- **Maintainer**: Owain Williams
+Requires **Umbraco 17** and **.NET 10**.
 
 ---
 
-**Made with ❤️ for the Umbraco Community**
+## Installation
 
+```bash
+dotnet add package OC.UFMFallbacks
+```
+
+No additional configuration needed — the package self-registers on startup.
+
+---
+
+## Syntax
+
+```
+{fbk: primaryProperty || fallback1 || fallback2 | filter1 | filter2:param}
+```
+
+**Examples:**
+
+```
+{fbk: heading}
+{fbk: content || heading}
+{fbk: content || heading | striphtml | truncate:60}
+```
+
+If `content` is empty (including blank rich text editors), the next fallback property is tried automatically.
+
+---
+
+## Available filters
+
+| Filter | Description |
+|---|---|
+| `striphtml` / `ncrichtext` | Removes all HTML tags |
+| `truncate:N` | Truncates to N characters at a word boundary |
+| `wordlimit:N` | Limits to N words |
+| `uppercase` | Converts to upper case |
+| `lowercase` | Converts to lower case |
+
+For rich text properties, use `striphtml` before `truncate` to avoid truncating mid-tag.
+
+---
+
+For full documentation visit [github.com/OwainWilliams/OC.UFMFallbacks](https://github.com/OwainWilliams/OC.UFMFallbacks).
+
+MIT © Owain Williams

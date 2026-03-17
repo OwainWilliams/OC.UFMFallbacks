@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.4.11605.240 stable
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OC.UFMMemberLookup", "OC.UFMMemberLookup.csproj", "{C0D46AAC-1B74-EEF1-BC86-6329F0062255}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OC.UFMFallbacks", "OC.UFMFallbacks.csproj", "{C0D46AAC-1B74-EEF1-BC86-6329F0062255}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

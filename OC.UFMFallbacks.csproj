@@ -7,21 +7,21 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Product>OC.UFMMemberLookup</Product>
-		<PackageId>OC.UFMMemberLookup</PackageId>
-		<Title>OC.UFMMemberLookup - Umbraco Flavoured Markdown Member Lookup</Title>
-		<Description>Lookup Member details with Umbraco Flavoured Markdown (UFM)</Description>
-		<PackageTags>umbraco;umbraco-marketplace;cms;content-management;ufm;member-lookup</PackageTags>
+		<Product>OC.UFMFallbacks</Product>
+		<PackageId>OC.UFMFallbacks</PackageId>
+		<Title>OC.UFMFallbacks - Umbraco Flavoured Markdown Fallbacks</Title>
+		<Description>Using UFM to allow for fallback properties</Description>
+		<PackageTags>umbraco;umbraco-marketplace;cms;content-management;ufm;umbraco-flavored-markdown</PackageTags>
 		<Authors>Owain Williams</Authors>
 		<Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © Owain Williams</Copyright>
-		<PackageProjectUrl>https://github.com/OwainWilliams/OC.UFMMemberLookup</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/OwainWilliams/OC.UFMMemberLookup</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/OwainWilliams/OC.UFMFallbacks</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/OwainWilliams/OC.UFMFallbacks</RepositoryUrl>
 		<PackageReadmeFile>README_nuget.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageIcon>ocUFMMemberLookupLogo.png</PackageIcon>
+		<PackageIcon>ocUFMFallbacksLogo.png</PackageIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.0.0-alpha</Version>
+		<Version>1.0.3-alpha</Version>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -46,9 +46,14 @@
 
 		<!-- However make the Umbraco-package.json included for dotnet pack or nuget package and visible to the solution -->
 		<None Include="Client\public\umbraco-package.json" Pack="false" />
+
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="ocUFMFallbacksLogo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	  <None Update="ocUFMMemberLookupLogo.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
@@ -57,6 +62,12 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Client\src\api\client\" />
+	  <Folder Include="Client\src\api\core\" />
+	  <Folder Include="Controllers\" />
 	</ItemGroup>
 
 

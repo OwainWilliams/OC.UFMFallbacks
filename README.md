@@ -1,92 +1,114 @@
-<img src="./ocUFMMemberLookupLogo.png" alt="OC UFM Member Lookup" width="50">
+# OC.UFMFallbacks
 
-# OC.UFMMemberLookup
+An [Umbraco](https://umbraco.com) package that extends **Umbraco Flavoured Markdown (UFM)** with a `{fbk:}` component, giving you property fallbacks and text filters directly inside block labels and other UFM contexts.
 
-An Umbraco 17 package that provides seamless member data lookup functionality through UFM (Umbraco Flavored Markdown) tokens. Display member information dynamically in your content using simple, intuitive syntax.
-
-## Features
-
-✅ **UFM Token Support** - Use `{mnl:propertyAlias.fieldName}` syntax to display member data  
-✅ **Flexible Member Fields** - Access standard fields (email, username, name) and custom properties  
-✅ **Smart Value Parsing** - Handles both UDI (`umb://member/{guid}`) and plain GUID formats  
-✅ **Real-time Loading** - Async data fetching with loading states  
-✅ **Secure API** - Backoffice authenticated endpoints  
-✅ **Zero Configuration** - Automatic registration and setup  
-
-## Quick Start
-
-### Installation
-```
-Install-Package OC.UFMMemberLookup
-```
-
-### Usage
-Use UFM tokens in your Umbraco content to display member information:
-
-
-`author` is the name of the member field in your content, it can be anything you like and name/email/company are the member properties you want to display.
-```
-{mnl:author.name}
-{mnl:author.email}
-{mnl:author.company}
-```
-
-### Example
-
-<img src=".github/assets/UFMMemberLookup.gif" alt="demo of how UFM Member Lookup works" />
-
-## Supported Member Fields
-
-- **Built-in Fields**: `email`, `username`, `name`
-- **Custom Properties**: Any custom member property alias
-
-## API Access
-
-The package also provides a REST API for programmatic access:
-
-```
-GET /umbraco/management/api/v1/oc/ocmembernamelookup/member-field?memberKey={guid}&field={fieldName}
-```
-
-## Requirements
-
-- **Umbraco CMS**: 17.0.0 or later
-- **.NET**: 10.0 or later
-- **Authentication**: Backoffice access for API endpoints
-
-## Real-World Use Cases
-
-- **Blog Author Information** - Display author bios and contact details
-- **Staff Directory** - Show employee contact information  
-- **Event Management** - Display organizer and speaker details
-- **Member Spotlights** - Feature member profiles and achievements
-- **Customer Testimonials** - Show customer names and company details
-
-## What's Included
-
-After installation, the package automatically provides:
-
-- UFM component registration for `mnl` tokens
-- Management API controllers
-- Client-side assets in `/App_Plugins/OCUFMMemberLookup/`
-- Automatic service registration
-
-No additional configuration required!
-
-## Documentation & Support
-
-- 📖 **Full Documentation**: [GitHub Repository](https://github.com/OwainWilliams/OC.UFMMemberLookup)
-- 🐛 **Issues & Support**: [GitHub Issues](https://github.com/OwainWilliams/OC.UFMMemberLookup/issues)
-- 💡 **Feature Requests**: Submit via GitHub Issues
-
-## Package Information
-
-- **Package ID**: `OC.UFMMemberLookup`
-- **Current Version**: `1.0.0-alpha`
-- **License**: MIT
-- **Maintainer**: Owain Williams
+![Umbraco Marketplace](https://img.shields.io/badge/Umbraco%20Marketplace-Free-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-green)
+![Umbraco 17](https://img.shields.io/badge/Umbraco-17-brightgreen)
 
 ---
 
-**Made with ❤️ for the Umbraco Community**
+## Requirements
 
+- Umbraco **17.x**
+- .NET 10
+
+---
+
+## Installation
+
+### Via NuGet (recommended)
+
+```bash
+dotnet add package OC.UFMFallbacks
+```
+
+Or search for **OC.UFMFallbacks** in the NuGet Package Manager inside Visual Studio.
+
+No additional configuration is required — the package self-registers via Umbraco's composition system on startup.
+
+---
+
+## What it does
+
+The package registers a custom UFM component with the alias `fbk`. You use it inside any UFM-enabled field (e.g. block list / block grid labels) to:
+
+- **Display a property value** from the current block
+- **Fall back** to one or more alternative properties when the primary value is empty
+- **Apply filters** to transform the output (strip HTML, truncate, change case, etc.)
+
+---
+
+## Syntax
+
+```
+{fbk: primaryProperty || fallback1 || fallback2 | filter1 | filter2:param}
+```
+
+| Part | Description |
+|---|---|
+| `primaryProperty` | The property alias to try first |
+| `|| fallback1` | One or more fallback aliases, tried in order if the previous is empty |
+| `| filter` | One or more filters to apply to the resolved value |
+
+### Basic example — display a heading
+
+```
+{fbk: heading}
+```
+
+### Fallback example — content with heading as fallback
+
+```
+{fbk: content || heading}
+```
+
+If `content` is empty (including blank rich text), the value of `heading` is used instead.
+
+### Filters example — strip HTML then truncate
+
+```
+{fbk: content || heading | striphtml | truncate:60}
+```
+
+### Full block label example
+
+```
+**Rich Text**: {fbk: content || heading | striphtml | truncate:60} ${$settings.hide == '1' ? '[HIDDEN]' : ''}
+```
+
+---
+
+## Available filters
+
+| Filter | Alias(es) | Description | Parameters |
+|---|---|---|---|
+| Strip HTML | `striphtml`, `ncrichtext` | Removes all HTML tags, leaving plain text | — |
+| Truncate | `truncate` | Truncates to N characters, breaking at a word boundary | `truncate:60` |
+| Word limit | `wordlimit` | Limits output to N words | `wordlimit:10` |
+| Uppercase | `uppercase` | Converts to upper case | — |
+| Lowercase | `lowercase` | Converts to lower case | — |
+
+Filters are applied left-to-right. For rich text properties, use `striphtml` before `truncate` to avoid truncating mid-tag.
+
+---
+
+## Property type support
+
+| Property type | Behaviour |
+|---|---|
+| Text / Textarea | Value used directly |
+| Rich Text Editor | HTML markup extracted; treated as empty if no visible text content |
+| Any other type | `ToString()` called on the value |
+
+---
+
+## Contributing
+
+Issues and pull requests are welcome at [github.com/OwainWilliams/OC.UFMFallbacks](https://github.com/OwainWilliams/OC.UFMFallbacks).
+
+---
+
+## License
+
+MIT © Owain Williams
