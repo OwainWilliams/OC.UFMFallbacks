@@ -38,4 +38,4 @@ jobs:
       run: dotnet pack OC.UFMFallbacks.csproj -c Release --no-build /p:Version=${{github.ref_name}}
 
     - name: Push to NuGet
-      run: dotnet nuget push **\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push bin\Release\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
