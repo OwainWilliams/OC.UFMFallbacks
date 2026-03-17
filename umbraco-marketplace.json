@@ -4,13 +4,13 @@
       "Name": "Owain Williams",
       "ImageUrl": "https://github.com/OwainWilliams.png",
       "Url": "https://owain.codes",
-      "Description": "Owain Williams is a Senior Developer at Initials Labs, a mutli-awarded Umbraco MVP"
+      "Description": "Owain Williams is a Senior Developer at Initials Labs and a mutli-awarded Umbraco MVP"
     },
     "Category": "Editor Tools",
-    "Description": "An Umbraco Flavoured Markdown extension to allow for searching Member data",
+    "Description": "An Umbraco Flavored Markdown extension to allow for fallback values and string manipulation",
     "LicenseTypes": [ "Free" ],
     "IssueTrackerUrl": "https://github.com/OwainWilliams/OC.UFMFallbacks",
     "PackageType": "Package",
-    "Tags": ["members", "markdown", "editor"],
+    "Tags": ["members", "markdown", "editor", "ufm", "umbraco-flavored-markdown"],
     "Title": "OC.UFMFallbacks"
   }
