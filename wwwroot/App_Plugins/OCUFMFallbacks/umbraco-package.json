@@ -1,7 +1,7 @@
 {
   "id": "OC.UFMFallbacks",
   "name": "OC.UFMFallbacks",
-  "version": "1.0.2-alpha",
+  "version": "17.0.0",
   "allowTelemetry": true,
   "extensions": [
     {
