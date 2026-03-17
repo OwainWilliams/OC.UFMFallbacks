@@ -48,8 +48,8 @@ The package registers a custom UFM component with the alias `fbk`. You use it in
 | Part | Description |
 |---|---|
 | `primaryProperty` | The property alias to try first |
-| `|| fallback1` | One or more fallback aliases, tried in order if the previous is empty |
-| `| filter` | One or more filters to apply to the resolved value |
+| `\|\| fallback1` | One or more fallback aliases, tried in order if the previous is empty |
+| `\| filter` | One or more filters to apply to the resolved value |
 
 ### Basic example — display a heading
 
