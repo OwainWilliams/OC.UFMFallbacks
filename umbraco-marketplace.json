@@ -7,7 +7,7 @@
       "Description": "Owain Williams is a Senior Developer at Initials Labs and a mutli-awarded Umbraco MVP"
     },
     "Category": "Editor Tools",
-    "Description": "An Umbraco package that extends Umbraco Flavoured Markdown (UFM) with a {fbk:} component, giving you property fallbacks and text filters directly inside block labels and other UFM contexts.",
+    "Description": "An Umbraco package that extends Umbraco Flavored Markdown (UFM) with a {fbk:} component, giving you property fallbacks and text filters directly inside block labels and other UFM contexts.",
     "LicenseTypes": [ "Free" ],
     "IssueTrackerUrl": "https://github.com/OwainWilliams/OC.UFMFallbacks",
     "PackageType": "Package",

@@ -1,6 +1,6 @@
 # OC.UFMFallbacks
 
-An [Umbraco](https://umbraco.com) package that extends **Umbraco Flavoured Markdown (UFM)** with a `{fbk:}` component, giving you property fallbacks and text filters directly inside block labels and other UFM contexts.
+An [Umbraco](https://umbraco.com) package that extends **Umbraco Flavored Markdown (UFM)** with a `{fbk:}` component, giving you property fallbacks and text filters directly inside block labels and other UFM contexts.
 
 ![Umbraco Marketplace](https://img.shields.io/badge/Umbraco%20Marketplace-Free-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)

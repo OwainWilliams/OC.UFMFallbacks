@@ -1,6 +1,6 @@
 # OC.UFMFallbacks
 
-Extends **Umbraco Flavoured Markdown (UFM)** with a `{fbk:}` component that supports property fallbacks and text filters inside block labels and other UFM contexts.
+Extends **Umbraco Flavored Markdown (UFM)** with a `{fbk:}` component that supports property fallbacks and text filters inside block labels and other UFM contexts.
 
 Requires **Umbraco 17** and **.NET 10**.
 

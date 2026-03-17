@@ -9,7 +9,7 @@
 	<PropertyGroup>
 		<Product>OC.UFMFallbacks</Product>
 		<PackageId>OC.UFMFallbacks</PackageId>
-		<Title>OC.UFMFallbacks - Umbraco Flavoured Markdown Fallbacks</Title>
+		<Title>OC.UFMFallbacks - Umbraco Flavored Markdown Fallbacks</Title>
 		<Description>Using UFM to allow for fallback properties</Description>
 		<PackageTags>umbraco;umbraco-marketplace;cms;content-management;ufm;umbraco-flavored-markdown</PackageTags>
 		<Authors>Owain Williams</Authors>
