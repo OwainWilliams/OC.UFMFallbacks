@@ -5,6 +5,7 @@ An [Umbraco](https://umbraco.com) package that extends **Umbraco Flavored Markdo
 ![Umbraco Marketplace](https://img.shields.io/badge/Umbraco%20Marketplace-Free-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 ![Umbraco 17](https://img.shields.io/badge/Umbraco-17-brightgreen)
+<img src="https://img.shields.io/nuget/vpre/oc.ufmfallbacks?color=0273B3&label=version" alt="Version" class="shield-badge" />
 
 ---
 
