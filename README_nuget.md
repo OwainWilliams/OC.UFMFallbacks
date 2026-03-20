@@ -43,6 +43,7 @@ If `content` is empty (including blank rich text editors), the next fallback pro
 | `wordlimit:N` | Limits to N words |
 | `uppercase` | Converts to upper case |
 | `lowercase` | Converts to lower case |
+| `count` / `arraycount` | Counts items in arrays (media/content pickers, block lists). Use `count:singular,plural` for smart pluralization (e.g., `count:image,images`) |
 
 For rich text properties, use `striphtml` before `truncate` to avoid truncating mid-tag.
 

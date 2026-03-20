@@ -88,8 +88,26 @@ If `content` is empty (including blank rich text), the value of `heading` is use
 | Word limit | `wordlimit` | Limits output to N words | `wordlimit:10` |
 | Uppercase | `uppercase` | Converts to upper case | — |
 | Lowercase | `lowercase` | Converts to lower case | — |
+| Count | `count`, `arraycount` | Counts items in an array (media pickers, content pickers, block lists, block grids) | `count` (just number)<br>`count:text` (number + text)<br>`count:singular,plural` (smart pluralization) |
 
 Filters are applied left-to-right. For rich text properties, use `striphtml` before `truncate` to avoid truncating mid-tag.
+
+### Count filter examples
+
+```
+{fbk: images | count}
+```
+Output: `3`
+
+```
+{fbk: images | count:image,images}
+```
+Output: `1 image` or `3 images`
+
+```
+{fbk: blocks | count:item(s)}
+```
+Output: `3 item(s)`
 
 ---
 
@@ -99,6 +117,9 @@ Filters are applied left-to-right. For rich text properties, use `striphtml` bef
 |---|---|
 | Text / Textarea | Value used directly |
 | Rich Text Editor | HTML markup extracted; treated as empty if no visible text content |
+| Media Picker (multiple) | Array converted to JSON for use with count filter |
+| Content Picker (multiple) | Array converted to JSON for use with count filter |
+| Block List / Block Grid | `contentData` array extracted for use with count filter |
 | Any other type | `ToString()` called on the value |
 
 ---
