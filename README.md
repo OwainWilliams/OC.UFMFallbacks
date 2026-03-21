@@ -124,6 +124,33 @@ Output: `3 item(s)`
 
 ---
 
+## TestSite
+
+The solution includes a fully configured Umbraco test site at `samples/OC.UFMFallbacks.Testsite` so you can try out every filter and fallback combination locally.
+
+### Running the TestSite
+
+1. **Build and run** the TestSite project:
+
+   ```bash
+   dotnet run --project samples/OC.UFMFallbacks.Testsite
+   ```
+
+2. **Log in** to the Umbraco backoffice at `https://localhost:<port>/umbraco`:
+
+   | | |
+   |---|---|
+   | **Email** | `admin@example.com` |
+   | **Password** | `1234567890` |
+
+### Test content & uSync
+
+The TestSite ships with [uSync](https://jumoo.co.uk/usync/) installed. All document types and test content are stored as uSync export files under `samples/OC.UFMFallbacks.Testsite/uSync/`. When the site starts for the first time, uSync will automatically import the schema and content so you have everything ready to go — no manual setup needed.
+
+If you need to re-import at any time, open the **uSync** dashboard in the backoffice Settings section and click **Import All**.
+
+---
+
 ## Contributing
 
 Issues and pull requests are welcome at [github.com/OwainWilliams/OC.UFMFallbacks](https://github.com/OwainWilliams/OC.UFMFallbacks).
