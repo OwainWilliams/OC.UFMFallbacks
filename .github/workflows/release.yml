@@ -1,7 +1,4 @@
 name: Release Package
-
-# This action will start when a correctly formatted tag is pushed (e.g. 0.1.0)
-
 on:
   workflow_dispatch:
     inputs:
@@ -15,11 +12,8 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
-
     - name: Checkout repository
       uses: actions/checkout@v4
 
@@ -32,10 +26,10 @@ jobs:
       run: dotnet restore src/OC.UFMFallbacks/OC.UFMFallbacks.csproj
 
     - name: Build
-      run: dotnet build src/OC.UFMFallbacks/OC.UFMFallbacks.csproj -c Release --no-restore /p:Version=${{github.ref_name}}
+      run: dotnet build src/OC.UFMFallbacks/OC.UFMFallbacks.csproj -c Release --no-restore /p:Version=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
 
     - name: Pack
-      run: dotnet pack src/OC.UFMFallbacks/OC.UFMFallbacks.csproj -c Release --no-build /p:Version=${{github.ref_name}}
+      run: dotnet pack src/OC.UFMFallbacks/OC.UFMFallbacks.csproj -c Release --no-build /p:Version=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
 
     - name: Push to NuGet
-      run: dotnet nuget push bin\Release\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push src/OC.UFMFallbacks/bin/Release/*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
