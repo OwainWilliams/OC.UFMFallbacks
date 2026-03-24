@@ -57,14 +57,6 @@ The package registers a custom UFM component with the alias `fbk`. You use it in
 {fbk: heading}
 ```
 
-### Nested Items Example - display a property value from each nested block within a parent block (in a comma delimited list)
-
-For this to work, this must be the alias of a block list (an object is required). If a nested property key isn't provided, it will return the raw object for the nested block.
-
-```
-{fbk: nestedBlocks.heading}
-```
-
 ### Fallback example — content with heading as fallback
 
 ```
@@ -84,6 +76,37 @@ If `content` is empty (including blank rich text), the value of `heading` is use
 ```
 **Rich Text**: {fbk: content || heading | striphtml | truncate:60} ${$settings.hide == '1' ? '[HIDDEN]' : ''}
 ```
+
+### Complex data types - display child property values in the parent label
+
+This applies to:
+
+- Multi Url Pickers
+- Media Pickers
+- Content Pickers
+- Multiple Text Strings
+
+To access multiple child values in the label, use dot notation (e.g. heading.text ) to access the child property value to pull through. This should append the property alias being accesssed. Apart from Block Lists, each complex data type will have a fixed accessor property, which is listed below.
+
+| Data Type            | Child Values                  | Accessor Property                               |
+| -------------------- | ----------------------------- | ----------------------------------------------- |
+| Multi Url Picker     | Name, or if null, url         | name _e.g. picker.name_                         |
+| Media Picker         | Media file name               | mediaName _e.g. images.mediaName_               |
+| Content Picker       | Selected doctype name         | docName _e.g. pages.docName_                    |
+| Multiple Text String | text strings                  | list _e.g. text.list_                           |
+| Block List           | block's chosen property alias | <alias name> _e.g. blockName.propertyAliasName_ |
+
+The raw properties can still be accessed for the complex data types - simply don't use the accessor property.
+
+**Please note - this is not currently set up to work on block grid.**
+
+The below example shows how to access the heading property of a block within the parent block list block (called nestedBlocks).
+
+```
+{fbk: nestedBlocks.heading}
+```
+
+This will render something like "nested block 1 heading, nested block 2 heading, nested block 3 heading" etc. on the parent label. These can be used in conjunction with filters. 
 
 ---
 

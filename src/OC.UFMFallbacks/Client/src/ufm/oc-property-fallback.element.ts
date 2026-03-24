@@ -1,6 +1,8 @@
 import { html, customElement, property, state } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
 import { UmbContextToken } from "@umbraco-cms/backoffice/context-api";
+import { UmbDocumentItemRepository } from "@umbraco-cms/backoffice/document";
+import { UmbMediaItemRepository } from "@umbraco-cms/backoffice/media"; // Add this import
 
 // UMB_UFM_RENDER_CONTEXT is not exported from the public API, so we reconstruct the token.
 // The context's `value` observable holds the block data object (property aliases as keys).
@@ -32,6 +34,7 @@ export class OcPropertyFallbackElement extends UmbLitElement {
   @property({ attribute: "fallback-properties" })
   fallbackProperties?: string;
 
+  /** To access property values within a complex primary object */
   @property({ attribute: "nested-property" })
   nestedProperty?: string | null;
 
@@ -41,6 +44,9 @@ export class OcPropertyFallbackElement extends UmbLitElement {
 
   @state()
   private _value?: string;
+
+  private _documentRepository = new UmbDocumentItemRepository(this);
+  private _mediaRepository = new UmbMediaItemRepository(this);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _blockData?: any;
@@ -61,7 +67,7 @@ export class OcPropertyFallbackElement extends UmbLitElement {
     });
   }
 
-  private _processPropertyFallback(): void {
+  private async _processPropertyFallback(): Promise<void> {
     if (!this._blockData || !this.primaryProperty) return;
 
     //  This is a temp object to enable us to access the primary property, and the nested block property that we want to display in the label.
@@ -72,7 +78,7 @@ export class OcPropertyFallbackElement extends UmbLitElement {
     }
 
     // The block data object has property aliases as direct keys: { heading: '...', content: {...} }
-    let value = this._getPropertyValue(this._blockData, this.primaryProperty);
+    let value = await this._getPropertyValue(this._blockData, this.primaryProperty);
 
     // Try fallback properties if primary is empty
     if (!value && this.fallbackProperties) {
@@ -81,7 +87,7 @@ export class OcPropertyFallbackElement extends UmbLitElement {
         .map((p) => p.trim())
         .filter((p) => p);
       for (const fallbackProp of fallbacks) {
-        value = this._getPropertyValue(this._blockData, fallbackProp);
+        value = await this._getPropertyValue(this._blockData, fallbackProp);
         if (value) break;
       }
     }
@@ -100,11 +106,11 @@ export class OcPropertyFallbackElement extends UmbLitElement {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private _getPropertyValue(blockData: any, propertyAlias: string): string | null {
+  private async _getPropertyValue(blockData: any, propertyAlias: string): Promise<string | null> {
     if (!blockData || !propertyAlias) return null;
-    let labelString = "";
 
-    let value = blockData[propertyAlias];
+    let value = blockData[propertyAlias] ?? blockData["grid"];
+
     // RTE values are objects with a `markup` string — extract it
     if (value && typeof value === "object" && value.markup !== undefined) {
       value = value.markup;
@@ -112,46 +118,51 @@ export class OcPropertyFallbackElement extends UmbLitElement {
 
     if (value === null || value === undefined) return null;
 
-    // Handle arrays (e.g., media pickers, content pickers with multiple items)
-    // Convert to JSON string so filters like count can parse them
+    // Handle arrays
     if (Array.isArray(value)) {
       if (value.length === 0) return null;
-      if (this.nestedProperty !== null && this.nestedProperty !== "") {
-        labelString += value
-          .map((item: any) => item[this.nestedProperty || "url"] || "")
-          .filter((v: any) => v)
-          .join(", ");
-        return labelString.length > 0 ? labelString : null;
+
+      // CONTENT PICKER - nested property 'docName'
+      if (value[0]?.unique !== undefined && this.nestedProperty === "docName") {
+        return await this._fetchItemNames(value, "unique", this._documentRepository);
       }
+
+      // MEDIA PICKER - nested property 'mediaName'
+      if (this.nestedProperty === "mediaName") {
+        return await this._fetchItemNames(value, "mediaKey", this._mediaRepository);
+      }
+
+      // MULTIPLE TEXT STRINGS - nested property 'list'
+      if (this.nestedProperty === "list") {
+        return value.map((v) => String(v)).join(", ") || null;
+      }
+
+      // URL PICKER or other nested properties
+      if (this.nestedProperty && value[0]?.[this.nestedProperty]) {
+        const joined = value
+          .map((item: any) => item[this.nestedProperty!] || "")
+          .filter((v: string) => v)
+          .join(", ");
+        return joined || null;
+      }
+
       return JSON.stringify(value);
     }
 
-    // Handle block grid/list structures - they might have a 'blocks' or 'items' array
+    // Handle objects (BLOCKLIST and others)
     if (typeof value === "object" && value !== null) {
-      // Block List/Block Grid - check for contentData array
       if (Array.isArray(value.contentData) && value.contentData.length > 0) {
-        if (this.nestedProperty === null || this.nestedProperty === "") {
+        if (!this.nestedProperty) {
           return JSON.stringify(value.contentData);
         }
-        value.contentData.map((item: any) => {
-          // Extract property values from each block item
-          item.values.forEach((val: { alias: string; value: string }) => {
-            if (val.alias === this.nestedProperty) {
-              labelString += val.value + ", ";
-            }
-          });
+
+        const values = value.contentData.flatMap((item: any) => {
+          return item.values.filter((val: { alias: string; value: any }) => val.alias === this.nestedProperty).map((val: { value: any }) => val.value);
         });
-        return labelString.length > 0 ? labelString.slice(0, -2) : null;
+
+        return values.length > 0 ? values.join(", ") : null;
       }
 
-      // Check for common array properties in other block structures
-      if (Array.isArray(value.blocks) && value.blocks.length > 0) {
-        return JSON.stringify(value.blocks);
-      }
-      if (Array.isArray(value.items) && value.items.length > 0) {
-        return JSON.stringify(value.items);
-      }
-      // If it's an object but not a known structure, try to stringify it
       try {
         return JSON.stringify(value);
       } catch {
@@ -159,16 +170,34 @@ export class OcPropertyFallbackElement extends UmbLitElement {
       }
     }
 
+    // Handle strings
     const stringValue = String(value).trim();
-    if (stringValue.length === 0) return null;
+    if (!stringValue) return null;
 
     // For HTML strings, only consider non-empty if there's actual text content
     if (stringValue.startsWith("<")) {
       const textContent = stringValue.replace(/<[^>]*>/g, "").trim();
-      return textContent.length > 0 ? stringValue : null;
+      return textContent ? stringValue : null;
     }
 
     return stringValue;
+  }
+
+  private async _fetchItemNames(items: any[], keyProperty: string, repository: typeof this._documentRepository | typeof this._mediaRepository): Promise<string | null> {
+    const keys = items.map((item: any) => item[keyProperty]).filter((k: string) => k);
+    if (keys.length === 0) return null;
+
+    try {
+      const result = await repository.requestItems(keys);
+      if (result.data) {
+        const names = result.data.map((doc) => doc.variants[0]?.name || "").filter((name) => name);
+        return names.length > 0 ? names.join(", ") : null;
+      }
+    } catch (error) {
+      console.error("[OcPropertyFallbackElement] Error fetching item names:", error);
+    }
+
+    return null;
   }
 
   private _applyFilters(value: string, filters: PropertyFilter[]): string {
