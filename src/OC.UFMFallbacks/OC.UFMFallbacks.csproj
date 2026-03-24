@@ -4,6 +4,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -27,7 +28,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\dist\</PackageOutputPath>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\..\..\dist\</PackageOutputPath>
 		<VersionSuffix>dev</VersionSuffix>
 		<VersionPrefix>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</VersionPrefix>
 	</PropertyGroup>
@@ -41,32 +42,27 @@
 
 	<ItemGroup>
 		<!-- Dont include the client folder as part of packaging nuget build -->
-		<Content Remove="Client\**" />
-		<Content Include="README_nuget.md" />
+		<Content Remove="..\..\Client\**" />
 
 		<!-- However make the Umbraco-package.json included for dotnet pack or nuget package and visible to the solution -->
-		<None Include="Client\public\umbraco-package.json" Pack="false" />
+		<None Include="..\..\Client\public\umbraco-package.json" Pack="false" />
 
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="ocUFMFallbacksLogo.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
+	  <None Include="..\..\ocUFMFallbacksLogo.png">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
 	  </None>
-	  <None Update="ocUFMMemberLookupLogo.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Update="README_nuget.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
+	  <None Include="..\..\README_nuget.md">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
 	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Client\src\api\client\" />
-	  <Folder Include="Client\src\api\core\" />
+	  <Folder Include="..\..\Client\src\api\client\" />
+	  <Folder Include="..\..\Client\src\api\core\" />
 	  <Folder Include="Controllers\" />
 	</ItemGroup>
 

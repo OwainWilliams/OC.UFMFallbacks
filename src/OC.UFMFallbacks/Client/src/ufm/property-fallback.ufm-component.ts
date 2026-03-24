@@ -8,8 +8,6 @@ export class PropertyFallbackUfmComponent extends UmbUfmComponentBase {
     // Expected syntax: {fbk:heading || bodyCopy | truncate:40}
     if (!token.text) return undefined;
 
-    console.log('[PropertyFallbackUfm] render() called, token.text:', token.text);
-
     // Parse the expression
     const parsedExpression = this.parseExpression(token.text);
     if (!parsedExpression) {
@@ -25,7 +23,6 @@ export class PropertyFallbackUfmComponent extends UmbUfmComponentBase {
       filters="${this.escapeHtml(this.encodeFilters(parsedExpression.filters))}">
     </ufm-oc-property-fallback>`;
     
-    console.log('[PropertyFallbackUfm] returning:', html);
     return html;
   }
 
