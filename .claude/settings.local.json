@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E '\\\\.\\(cs|csproj\\)$')",
+      "Bash(xargs grep:*)",
+      "mcp__umbraco-mcp__get-all-data-types",
+      "mcp__umbraco-mcp__get-data-type-property-editor-template",
+      "mcp__umbraco-mcp__get-document-property-value-template",
+      "mcp__umbraco-mcp__create-element-type",
+      "mcp__umbraco-mcp__create-data-type",
+      "mcp__umbraco-mcp__create-document-type",
+      "mcp__umbraco-mcp__create-media",
+      "mcp__umbraco-mcp__create-document",
+      "mcp__umbraco-mcp__publish-document"
+    ]
+  }
+}
