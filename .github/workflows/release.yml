@@ -1,5 +1,5 @@
-name: Release Package
 # This action will start when a correctly formatted tag is pushed (e.g. 0.1.0)
+
 on:
   workflow_dispatch:
     inputs:
@@ -13,13 +13,26 @@ on:
 
 jobs:
   build:
+
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: src/OC.UFMFallbacks
+
     steps:
+
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install npm dependencies
+      working-directory: src/OC.UFMFallbacks/Client
+      run: npm install
+
+    - name: Build frontend
+      working-directory: src/OC.UFMFallbacks/Client
+      run: npm run build
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -27,13 +40,13 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Restore dependencies
-      run: dotnet restore OC.UFMFallbacks.csproj
+      run: dotnet restore src\OC.UFMFallbacks\OC.UFMFallbacks.csproj
 
     - name: Build
-      run: dotnet build OC.UFMFallbacks.csproj -c Release --no-restore /p:Version=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
+      run: dotnet build src\OC.UFMFallbacks\OC.UFMFallbacks.csproj -c Release --no-restore /p:Version=${{github.ref_name}}
 
     - name: Pack
-      run: dotnet pack OC.UFMFallbacks.csproj -c Release --no-build /p:Version=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
+      run: dotnet pack src\OC.UFMFallbacks\OC.UFMFallbacks.csproj -c Release --no-build /p:Version=${{github.ref_name}}
 
     - name: Push to NuGet
-      run: dotnet nuget push bin\Release\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push **\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
