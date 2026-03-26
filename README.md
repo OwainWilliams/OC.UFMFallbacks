@@ -165,18 +165,21 @@ The solution includes a fully configured Umbraco test site at `samples/OC.UFMFal
 
 ### Running the TestSite
 
-1. **Build and run** the TestSite project:
+1. Make sure the appsettings connection string is empty. This will allow you to setup your own login details for your local environment when you first run the site:
+   ```json
+    "ConnectionStrings": {
+    "umbracoDbDSN": "",
+    "umbracoDbDSN_ProviderName": ""}
+   ```
+2. **Build and run** the TestSite project:
 
    ```bash
    dotnet run --project samples/OC.UFMFallbacks.Testsite
    ```
 
-2. **Log in** to the Umbraco backoffice at `https://localhost:<port>/umbraco`:
+3. Setup your admin user details when prompted.
 
-   |              |                     |
-   | ------------ | ------------------- |
-   | **Email**    | `admin@example.com` |
-   | **Password** | `1234567890`        |
+4. uSync will automatically import the test content on first run. Once the site is running, you can log in to the Umbraco backoffice at `http://localhost:5000/umbraco` and explore the content and document types to see how the UFM Fallbacks package works in practice.
 
 ### Test content & uSync
 
