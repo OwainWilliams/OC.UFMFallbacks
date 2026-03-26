@@ -38,6 +38,11 @@ The package registers a custom UFM component with the alias `fbk`. You use it in
 - **Fall back** to one or more alternative properties when the primary value is empty
 - **Apply filters** to transform the output (strip HTML, truncate, change case, etc.)
 
+### Quick Demo
+Below is a quick demo of some of the things you can do with OC.UFMFallbacks package
+
+<img src="/assets/UFMDemo.gif" alt="Demo of the UFMFallbacks package within Umbraco">
+
 ---
 
 ## Syntax
