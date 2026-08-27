@@ -83,6 +83,16 @@ If `content` is empty (including blank rich text), the value of `heading` is use
 **Rich Text**: {fbk: content || heading | striphtml | truncate:60} ${$settings.hide == '1' ? '[HIDDEN]' : ''}
 ```
 
+### Dash example — optional separator
+
+Put the separator inside the expression with the `dash` filter so it only appears when there is a value:
+
+```
+Card Grid ({fbk: cards | count:card,cards}){fbk: heading | truncate:40 | dash}
+```
+
+Output: `Card Grid (3 cards) - Our services`, or just `Card Grid (3 cards)` when `heading` is empty.
+
 ### Complex data types - display child property values in the parent label
 
 This applies to:
@@ -120,7 +130,8 @@ This will render something like "nested block 1 heading, nested block 2 heading,
 
 | Filter     | Alias(es)                 | Description                                                                         | Parameters                                                                                             |
 | ---------- | ------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Strip HTML | `striphtml`, `ncrichtext` | Removes all HTML tags, leaving plain text                                           | —                                                                                                      |
+| Strip HTML | `striphtml`, `ncrichtext`, `plaintext` | Removes all HTML tags, leaving plain text. Tags become spaces (so `<h2>Welcome</h2><p>We…` reads "Welcome We…"), entities are decoded and whitespace collapsed | —                                                                                                      |
+| Dash       | `dash`                    | Prefixes a non-empty value with ` - `; outputs nothing when the value is empty, so labels never end in a dangling separator | —                                                                                                      |
 | Truncate   | `truncate`                | Truncates to N characters, breaking at a word boundary                              | `truncate:60`                                                                                          |
 | Word limit | `wordlimit`               | Limits output to N words                                                            | `wordlimit:10`                                                                                         |
 | Uppercase  | `uppercase`               | Converts to upper case                                                              | —                                                                                                      |
@@ -148,6 +159,18 @@ Output: `1 image` or `3 images`
 ```
 
 Output: `3 item(s)`
+
+### Using the filters with the built-in `{umbValue:}` component
+
+`plainText` and `dash` are also registered as standard UFM filters (`ufmFilter` extensions), so they work with Umbraco's own `{umbValue:}` / `{=}` component and can be chained with the core filters:
+
+```
+Rich Text{umbValue: text | plainText | truncate:40:... | dash}
+```
+
+Output: `Rich Text - Welcome We're glad you chose to visit…`, or just `Rich Text` when the editor is empty.
+
+`plainText` is the whitespace-aware alternative to the core `stripHtml` filter, which deletes tags without inserting spaces and runs adjacent blocks together ("WelcomeWe're glad…"). The other `{fbk:}` filters (`truncate`, `count`, …) are only available inside `{fbk:}` expressions.
 
 ---
 

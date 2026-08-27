@@ -38,7 +38,8 @@ If `content` is empty (including blank rich text editors), the next fallback pro
 
 | Filter | Description |
 |---|---|
-| `striphtml` / `ncrichtext` | Removes all HTML tags |
+| `striphtml` / `ncrichtext` / `plaintext` | Removes all HTML tags; tags become spaces, entities decoded, whitespace collapsed |
+| `dash` | Prefixes a non-empty value with ` - `; outputs nothing when empty (no dangling separator) |
 | `truncate:N` | Truncates to N characters at a word boundary |
 | `wordlimit:N` | Limits to N words |
 | `uppercase` | Converts to upper case |
@@ -46,6 +47,8 @@ If `content` is empty (including blank rich text editors), the next fallback pro
 | `count` / `arraycount` | Counts items in arrays (media/content pickers, block lists). Use `count:singular,plural` for smart pluralization (e.g., `count:image,images`) |
 
 For rich text properties, use `striphtml` before `truncate` to avoid truncating mid-tag.
+
+`plainText` and `dash` are also registered as standard UFM filters, so they work with the built-in `{umbValue:}` component too, e.g. `Rich Text{umbValue: text | plainText | truncate:40:... | dash}`.
 
 ---
 

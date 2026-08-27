@@ -2,7 +2,8 @@ import { html, customElement, property, state } from "@umbraco-cms/backoffice/ex
 import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
 import { UmbContextToken } from "@umbraco-cms/backoffice/context-api";
 import { UmbDocumentItemRepository } from "@umbraco-cms/backoffice/document";
-import { UmbMediaItemRepository } from "@umbraco-cms/backoffice/media"; // Add this import
+import { UmbMediaItemRepository } from "@umbraco-cms/backoffice/media";
+import { dash, stripHtml } from "./filters/text-filters.js";
 
 // UMB_UFM_RENDER_CONTEXT is not exported from the public API, so we reconstruct the token.
 // The context's `value` observable holds the block data object (property aliases as keys).
@@ -216,7 +217,10 @@ export class OcPropertyFallbackElement extends UmbLitElement {
         return this._truncate(value, filter.params);
       case "striphtml":
       case "ncrichtext":
-        return this._stripHtml(value);
+      case "plaintext":
+        return stripHtml(value);
+      case "dash":
+        return dash(value);
       case "uppercase":
         return value.toUpperCase();
       case "lowercase":
@@ -246,11 +250,6 @@ export class OcPropertyFallbackElement extends UmbLitElement {
     }
 
     return truncated + "...";
-  }
-
-  private _stripHtml(value: string): string {
-    // Remove HTML tags
-    return value.replace(/<[^>]*>/g, "").trim();
   }
 
   private _wordLimit(value: string, params: string[]): string {
